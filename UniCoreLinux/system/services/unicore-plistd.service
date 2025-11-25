@@ -1,0 +1,11 @@
+[Unit]
+Description=UniCore PlistD - simple plist manager
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/unicore-plistd
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
