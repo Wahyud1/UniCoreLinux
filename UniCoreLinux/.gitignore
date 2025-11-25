@@ -1,0 +1,13 @@
+# Excluded SSH Keys
+git@Wahyud1
+git@Wahyud1.pub
+
+# Excluded sync automation script
+sync.sh
+
+# OS junk files
+*.swp
+*.tmp
+*.bak
+.DS_Store
+
