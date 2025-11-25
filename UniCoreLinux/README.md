@@ -1,0 +1,2 @@
+# UniCoreLinux
+Project scaffold placeholder.
