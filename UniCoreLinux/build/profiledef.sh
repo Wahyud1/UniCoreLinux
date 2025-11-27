@@ -1,0 +1,10 @@
+profile_name="unicore-uefi"
+iso_name="unicore-uefi"
+iso_label="UNICORE_UEFI"
+iso_publisher="UniCore Project"
+iso_application="UniCore Linux Live Installer (UEFI)"
+buildmodes=('iso')
+arch="x86_64"
+bootmodes=('uefi-x64.systemd-boot')
+airootfs_image_type="squashfs"
+airootfs_image_tool_options=('-comp' 'xz')

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+THEME_DIR="/usr/share/unicore/theme"
+GTK_CONF="$HOME/.config/gtk-3.0"
+case "$1" in
+  apply)
+    mkdir -p "$GTK_CONF"
+    if [ -d "$THEME_DIR/gtk-3.0" ]; then
+      cp -a "$THEME_DIR/gtk-3.0/"* "$GTK_CONF/" || true
+    fi
+    echo "[theme] applied (if theme exists)" ;;
+  list) ls -1 "$THEME_DIR" ;;
+  *) echo "Usage: theme-engine apply|list" ;;
+esac

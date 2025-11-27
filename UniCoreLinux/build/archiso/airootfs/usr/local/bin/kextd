@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+KEXT_DIR="/usr/share/unicore/kexts"
+
+load_kext() {
+  local k="$1"
+  local ko="$KEXT_DIR/$k/$k.ko"
+  if [ ! -f "$ko" ]; then
+    echo "[kextd] module not found: $ko" >&2
+    return 1
+  fi
+  echo "[kextd] loading $ko"
+  modprobe --ignore-install $(basename "$ko" .ko) || insmod "$ko"
+}
+
+case "$1" in
+  load) load_kext "$2" ;;
+  list) ls -1 "$KEXT_DIR" ;;
+  auto)
+    lspci -nn | grep -E 'VGA|3D' | while read -r line; do
+      if echo "$line" | grep -qi nvidia; then load_kext "nvidia"; fi
+      if echo "$line" | grep -qi amd; then load_kext "amdgpu"; fi
+      if echo "$line" | grep -qi intel; then load_kext "i915"; fi
+    done
+    ;;
+  *) echo "Usage: kextd {load <name>|list|auto}"; exit 1 ;;
+esac

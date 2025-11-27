@@ -1,0 +1,12 @@
+pkgname=unicore-theme
+pkgver=0.1
+pkgrel=1
+arch=('any')
+depends=()
+source=('theme')
+license=('MIT')
+build() { :; }
+package() {
+  install -dm755 "$pkgdir/usr/share/unicore/theme"
+  cp -a theme/* "$pkgdir/usr/share/unicore/theme/"
+}

@@ -1,0 +1,10 @@
+[Unit]
+Description=UniCore Kext Loader
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/kextd auto
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

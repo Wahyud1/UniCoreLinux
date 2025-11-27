@@ -1,0 +1,12 @@
+pkgname=unicore-kextd
+pkgver=0.1
+pkgrel=1
+arch=('x86_64')
+depends=('bash' 'kmod')
+source=('kextd')
+license=('MIT')
+build() { :; }
+package() {
+  install -Dm755 kextd "$pkgdir/usr/bin/kextd"
+  install -Dm644 ../../system/services/kextd.service "$pkgdir/usr/lib/systemd/system/kextd.service"
+}

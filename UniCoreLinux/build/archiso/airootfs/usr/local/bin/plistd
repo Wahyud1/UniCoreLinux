@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -e
+WATCH_DIR="/etc/unicore/launchd"
+
+start_plist() {
+  local f="$1"
+  if command -v plistutil >/dev/null 2>&1; then
+    cmd=$(plistutil -i "$f" -o json | jq -r '.ProgramArguments[0] // .Program // empty')
+  elif command -v plutil >/dev/null 2>&1; then
+    cmd=$(plutil -convert json -o - "$f" 2>/dev/null | jq -r '.ProgramArguments[0] // .Program // empty')
+  else
+    echo "[plistd] no plist parser installed." >&2
+    return 1
+  fi
+  if [ -n "$cmd" ]; then
+    echo "[plistd] launching: $cmd"
+    $cmd &
+  else
+    echo "[plistd] no Program in $f"
+  fi
+}
+
+case "$1" in
+  watch)
+    mkdir -p "$WATCH_DIR"
+    for p in "$WATCH_DIR"/*.plist; do
+      [ -f "$p" ] && start_plist "$p"
+    done
+    ;;
+  read)
+    cat "$2"
+    ;;
+  *)
+    echo "Usage: plistd watch|read <file>"
+    ;;
+esac

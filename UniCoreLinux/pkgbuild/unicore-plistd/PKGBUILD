@@ -1,0 +1,12 @@
+pkgname=unicore-plistd
+pkgver=0.1
+pkgrel=1
+arch=('any')
+depends=('python' 'jq')
+source=('unicore-plistd.py')
+license=('MIT')
+build() { :; }
+package() {
+  install -Dm755 unicore-plistd.py "$pkgdir/usr/bin/unicore-plistd"
+  install -Dm644 ../../system/services/plistd.service "$pkgdir/usr/lib/systemd/system/plistd.service"
+}

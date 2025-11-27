@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+SESSION_DIR="$HOME/.local/share/unicore/session"
+save_session(){
+  mkdir -p "$SESSION_DIR"
+  wmctrl -lG > "$SESSION_DIR/windows.txt"
+  echo "[session] saved"
+}
+restore_session(){
+  [ -f "$SESSION_DIR/windows.txt" ] || { echo "[session] no saved session"; exit 1; }
+  while read -r ln; do
+    wid=$(echo "$ln" | awk '{print $1}')
+    x=$(echo "$ln" | awk '{print $3}')
+    y=$(echo "$ln" | awk '{print $4}')
+    w=$(echo "$ln" | awk '{print $5}')
+    h=$(echo "$ln" | awk '{print $6}')
+    wmctrl -i -r "$wid" -e "0,$x,$y,$w,$h" || true
+  done < "$SESSION_DIR/windows.txt"
+  echo "[session] restored"
+}
+case "$1" in
+  save) save_session ;;
+  restore) restore_session ;;
+  *) echo "Usage: session-restore save|restore"; exit 1 ;;
+esac

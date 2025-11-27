@@ -1,0 +1,11 @@
+[Unit]
+Description=UniCore plist daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/plistd watch
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

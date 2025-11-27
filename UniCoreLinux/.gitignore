@@ -1,13 +1,11 @@
-# Excluded SSH Keys
+# ignore keys & local scripts
 git@Wahyud1
 git@Wahyud1.pub
-
-# Excluded sync automation script
 sync.sh
 
-# OS junk files
-*.swp
-*.tmp
-*.bak
-.DS_Store
-
+# build artifacts
+*.iso
+build/archiso/out/
+build/archiso/work/
+out/
+work/

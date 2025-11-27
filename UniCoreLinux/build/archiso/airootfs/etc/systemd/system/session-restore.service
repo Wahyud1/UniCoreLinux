@@ -1,0 +1,11 @@
+[Unit]
+Description=UniCore Session Restore
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/session-restore restore
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target

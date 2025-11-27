@@ -1,21 +1,19 @@
 #!/usr/bin/env bash
-#
-# Simple mkarchiso wrapper for building a UniCore ISO from the scaffold.
-# Requires mkarchiso installed on the host.
-#
-set -Eeuo pipefail
-PROFILE_DIR="$(cd "$(dirname "$0")" && pwd)/archiso"
-WORK_DIR="$PROFILE_DIR/work"
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+PROFILE_DIR="$HERE/archiso"
 OUT_DIR="$PROFILE_DIR/out"
+WORK_DIR="$PROFILE_DIR/work"
+
+echo "[unicore-builder] cleaning previous build..."
+sudo rm -rf "$OUT_DIR" "$WORK_DIR"
+mkdir -p "$OUT_DIR" "$WORK_DIR"
 
 if ! command -v mkarchiso >/dev/null 2>&1; then
-  echo "mkarchiso not found. Install it from official repos or AUR."
+  echo "mkarchiso not found. Install package 'archiso' first."
   exit 1
 fi
 
-mkdir -p "$WORK_DIR" "$OUT_DIR"
-pushd "$PROFILE_DIR" >/dev/null
-echo "Running mkarchiso in: $PROFILE_DIR"
-sudo mkarchiso -v .
-popd >/dev/null
-echo "ISO build finished. Check $OUT_DIR for output."
+echo "[unicore-builder] running mkarchiso profile: $PROFILE_DIR"
+sudo mkarchiso -v -w "$WORK_DIR" -o "$OUT_DIR" "$PROFILE_DIR"
+echo "[unicore-builder] finished. ISO in: $OUT_DIR"
